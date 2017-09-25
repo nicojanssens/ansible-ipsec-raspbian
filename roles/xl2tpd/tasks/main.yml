@@ -1,0 +1,7 @@
+- name: Install xl2tpd
+  apt:
+    name: xl2tpd
+    state: present
+
+- name: Replace xl2tpd.conf
+  template: src=xl2tpd.conf.j2 dest=/etc/xl2tpd/xl2tpd.conf mode=0644

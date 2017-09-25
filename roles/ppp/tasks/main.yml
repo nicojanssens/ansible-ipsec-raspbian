@@ -1,0 +1,16 @@
+- name: Install ppp
+  apt:
+    name: ppp
+    state: present
+
+- name: Replace options.xl2tpd
+  template: src=options.xl2tpd.j2 dest=/etc/ppp/options.xl2tpd mode=0644
+
+- name: Update chap secrets
+  blockinfile:
+    path: /etc/ppp/chap-secrets
+    marker: "# {mark} ANSIBLE MANAGED BLOCK"
+    content: |
+      # Secrets for authentication using CHAP
+      # client server secret IP addresses
+       {{ credentials.username }} * {{ credentials.password}} *
