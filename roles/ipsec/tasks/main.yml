@@ -13,4 +13,4 @@
 - name: Set ipsec secret
   lineinfile:
     path: /etc/ipsec.secrets
-    line: {{ network.address }} %any: PSK "{{ secret }}"
+    line: '"{{ network.address }}" %any: PSK "{{ secret }}"'
