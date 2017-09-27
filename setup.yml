@@ -1,1 +1,20 @@
+- name: Update network settings
+  hosts: server
+  become: true
+  become_method: sudo
+  vars_files:
+    - config.yml
+  roles:
+    - network
 
+- name: Install and configure ipsec packages
+  hosts: server
+  become: true
+  become_method: sudo
+  vars_files:
+    - config.yml
+  roles:
+    - ipsec
+    - xl2tpd
+    - ppp
+    - autostart
