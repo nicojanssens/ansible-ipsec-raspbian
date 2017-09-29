@@ -8,7 +8,7 @@
 
 - name: Update chap secrets
   blockinfile:
-    path: /etc/ppp/chap-secrets
+    dest: /etc/ppp/chap-secrets
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     content: |
       # Secrets for authentication using CHAP
