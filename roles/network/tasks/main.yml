@@ -4,44 +4,33 @@
     chain: POSTROUTING
     jump: MASQUERADE
 
-- name: Get ipv4 interfaces
-  command: ls /proc/sys/net/ipv4/conf/
-  register: ipv4_interfaces
-  changed_when: false
-
-- name: Disable redirect
-  file:
-    content=0
-    dest='/proc/sys/net/ipv4/conf/{{ item.0 }}/{{ item.1 }}'
-  with_nested:
-   - ipv4_interfaces.stdout_lines
-   - [ 'accept_redirects',  'send_redirects' ]
-
-- name: Enable ip forwarding in /proc
+- name: Enable ip forwarding
   sysctl:
     name: net.ipv4.ip_forward
     value: 1
     sysctl_set: yes
     state: present
+    reload: yes
 
-- name: Disable acceptance of all ICMP redirected packets in /proc
-  sysctl:
-    name: net.ipv4.conf.all.accept_redirects
-    value: 0
-    sysctl_set: yes
-    state: present
+- name: Get ipv4 interfaces
+  command: ls /proc/sys/net/ipv4/conf/
+  register: ipv4_interfaces
+  changed_when: false
 
-- name: Disables sending of all IPv4 ICMP redirected packets in /proc
+- name: Disable sending and acceptance of ICMP redirected packets on all ipv4 interfaces
   sysctl:
-    name: net.ipv4.conf.all.send_redirects
+    name: 'net.ipv4.conf.{{ item.0 }}.{{ item.1 }}'
     value: 0
     sysctl_set: yes
     state: present
     reload: yes
+  with_nested:
+   - "{{ ipv4_interfaces.stdout_lines }}"
+   - [ 'accept_redirects',  'send_redirects' ]
 
 - name: Update rc.local
   blockinfile:
-    path: /etc/rc.local
+    name: /etc/rc.local
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     insertbefore: "exit 0"
     content: |
