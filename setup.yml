@@ -1,7 +1,6 @@
 - name: Update network settings
   hosts: server
   become: true
-  become_method: sudo
   vars_files:
     - config.yml
   roles:
