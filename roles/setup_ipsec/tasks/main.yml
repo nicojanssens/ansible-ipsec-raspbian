@@ -19,4 +19,4 @@
     marker: "# {mark} ANSIBLE MANAGED BLOCK"
     content: |
       # L2TP/IPsec VPN Server
-       {{ network.address }} %any: PSK "{{ credentials.secret }}"
+      {{ network.address }} %any: PSK "{{ credentials.secret }}"

@@ -1,0 +1,5 @@
+- name: Remove ipsec init script + all associated symlinks
+  command: update-rc.d -f ipsec remove
+
+- name: Create new ipsec init script + insert links using the defaults
+  command: update-rc.d ipsec defaults

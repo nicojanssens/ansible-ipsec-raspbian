@@ -4,7 +4,7 @@
   vars_files:
     - config.yml
   roles:
-    - network
+    - setup_network
 
 - name: Install and configure ipsec packages
   hosts: server
@@ -13,7 +13,8 @@
   vars_files:
     - config.yml
   roles:
-    - ipsec
-    - xl2tpd
-    - ppp
-    - autostart
+    - setup_ipsec
+    - setup_xl2tpd
+    - setup_ppp
+    - activate_autostart
+    - restart_services
