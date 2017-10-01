@@ -1,5 +1,5 @@
 - name: Update network settings
-  hosts: server
+  hosts: all
   become: true
   vars_files:
     - config.yml
@@ -7,7 +7,7 @@
     - setup_network
 
 - name: Install and configure ipsec packages
-  hosts: server
+  hosts: all
   become: true
   become_method: sudo
   vars_files:
